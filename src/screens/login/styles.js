@@ -1,6 +1,6 @@
 export default {
-  buttonMargin: {
-    marginRight: '20px',
-    marginBottom: '20px'
+  margin: {
+    small: { marginTop: '3vh' },
+    big: { marginTop: '5vh' },
   }
 }

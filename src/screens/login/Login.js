@@ -1,64 +1,55 @@
 import React from 'react'
-import styles from './styles'
 import { 
+  P,
+  Row,
   Logo, 
-  Title, 
+  Link,
   Label, 
   Input, 
-  Select, 
-  Option, 
-  Button, 
-  Subtitle,
+  Button,
   Container, 
-  Background 
+  Background,
+  SocialMedia
 } from '../../components/auth'
+import styles from './styles'
 
 export default class Login extends React.Component {
   render() {
     return (
       <Background>
         <Container>
-          <Logo />
-          
-          <Title>Conclua seu cadastro</Title>
-          <Subtitle>Preencha o formulário para criar seu login</Subtitle>
-          
-          <Label>Nome</Label>
-          <Input placeholder='Nome' />                
-          
-          <Label>E-mail</Label>
-          <Input placeholder='Nome' />                
-          
+          <Row>
+            <Logo style={styles.margin.big}/>
+          </Row>
+
+          <Label>Login</Label>
+          <Input/>
+
           <Label>Senha</Label>
-          <Input placeholder='Nome' />                
+          <Input/>
+
+          <Button block style={styles.margin.small}>LOGIN</Button>
+          <Row>
+            <Link href='/' clean>Esqueci minha senha &gt;</Link>
+          </Row>
           
-          <Label>Confirmar Senha</Label>
-          <Input placeholder='Nome' />                
-          
-          <Label>Gênero</Label>
-          <Select>
-            <Option>Selecione</Option>
-          </Select>                
-          
-          <Label>Telefone</Label>
-          <Input placeholder='Nome' />                
-          
-          <Label>Pais</Label>
-          <Select>
-            <Option>Selecione</Option>
-          </Select>
-          
-          <Label>Número de cpf</Label>
-          <Input placeholder='Nome' />
-          
-          <Label>Deseja receber nossa newsletter?</Label>
-          <Button style={styles.buttonMargin}>Sim</Button>
-          <Button color='black'>Não</Button>
-          
-          <Button block>COMEÇAR</Button>
+          <Row>
+            <P>Faça seu login usando</P>
+          </Row>
+          <Row>
+            <SocialMedia icon='facebook-f'/>
+            <SocialMedia icon='twitter'/>
+            <SocialMedia icon='linkedin-in'/>
+            <SocialMedia icon='google'/>
+          </Row>
+          <Button block color='black' style={styles.margin.small}>
+            NÃO TENHO LOGIN
+          </Button>
+          <Row style={styles.margin.small}>
+            <Link href='/'>Central de ajuda</Link>
+          </Row>
         </Container>
       </Background>
-      )
-    }
+    )
   }
-  
+}
