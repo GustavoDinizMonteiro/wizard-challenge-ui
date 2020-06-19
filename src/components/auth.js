@@ -74,6 +74,7 @@ const formItem = css`
   border: none;
   border-bottom: 1px solid white;
   background: transparent;
+  background-color: transparent;
   font-size: 1rem;
   color: gray;
   ${fullWidth}
@@ -89,6 +90,35 @@ export const Select = styled.select`
   padding: 10px 0px;
 `
 
+export const InputField = ({ 
+  value, name, onChange, label, placeholder, autoComplete='new-password',
+  inputType='text', labelStyle={}, inputStyle={}, as='', data=[]
+}) => {
+  const props = {
+    type: inputType,
+    placeholder, name, value,
+    autoComplete, inputStyle, onChange
+  } 
+  return (
+    <React.Fragment>
+      <Label style={labelStyle}>{label}</Label>
+      { as === 'select' ?
+
+        (<Select {...props}>
+          <Option>Selecione</Option>
+          { data.map((el, idx) => (
+            <Option key={el.key || idx} value={el.value}>
+              {el.label}
+            </Option>
+          ))}
+        </Select>):
+
+        <Input {...props} />
+      }
+    </React.Fragment>
+  ) 
+}
+
 export const Option = styled.option`
   line-height: 2rem;
   background-color: white;
@@ -97,7 +127,7 @@ export const Option = styled.option`
 
 export const Link = styled.a`
   color: #2267a8;
-  font-size: 14px;
+  font-size: 13px;
   text-transform: uppercase;
   ${props => props.clean && 'text-decoration: none;'}
 `

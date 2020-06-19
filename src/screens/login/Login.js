@@ -4,17 +4,28 @@ import {
   Row,
   Logo, 
   Link,
-  Label, 
-  Input, 
   Button,
   Container, 
   Background,
+  InputField,
   SocialMedia
 } from '../../components/auth'
 import styles from './styles'
 
 export default class Login extends React.Component {
+  state = {
+    email: '',
+    pass: ''
+  }
+
+  onChange = event => {
+    event.preventDefault()
+    const { name, value } = event.target
+    this.setState({ [name]: value })
+  }
+
   render() {
+    const { email, pass } = this.state
     return (
       <Background>
         <Container>
@@ -22,15 +33,30 @@ export default class Login extends React.Component {
             <Logo style={styles.margin.big}/>
           </Row>
 
-          <Label>Login</Label>
-          <Input/>
-
-          <Label>Senha</Label>
-          <Input/>
+          <InputField 
+              placeholder='Seu email'
+              inputType='email'
+              value={email}
+              name='email'
+              label='Login'
+              onChange={this.onChange}
+            />
+            
+            <InputField 
+              placeholder='*****'
+              inputType='password'
+              autoComplete='new-password'
+              value={pass}
+              name='pass'
+              label='Senha'
+              onChange={this.onChange}
+            /> 
 
           <Button block style={styles.margin.small}>LOGIN</Button>
           <Row>
-            <Link href='/' clean>Esqueci minha senha &gt;</Link>
+            <Link href='/' clean style={styles.margin.tiny}>
+              Esqueci minha senha &gt;
+            </Link>
           </Row>
           
           <Row>
