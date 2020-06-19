@@ -1,4 +1,6 @@
 import React from 'react'
+import Swal from 'sweetalert2'
+
 import styles from './styles'
 import { 
   Logo, 
@@ -11,7 +13,6 @@ import {
   Background 
 } from '../../components/auth'
 import service from '../../services/wizard'
-import Swal from 'sweetalert2'
 
 const mapToOption = data => data.map(el => ({
   key: el.id,
