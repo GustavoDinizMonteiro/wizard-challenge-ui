@@ -10,6 +10,14 @@ import {
   InputField, 
   Background 
 } from '../../components/auth'
+import service from '../../services/wizard'
+import Swal from 'sweetalert2'
+
+const mapToOption = data => data.map(el => ({
+  key: el.id,
+  value: el.id,
+  label: el.name   
+}))
 
 export default class Signup extends React.Component {
   state = {
@@ -21,11 +29,19 @@ export default class Signup extends React.Component {
     phone: '',
     countryId: '',
     cpf: '',
-    subscriber: true
+    subscriber: true,
+    genders: [],
+    countries: []
   }
 
   async componentDidMount() {
-
+    try {
+      const { data: genders } = await service.listGenders()
+      const { data: countries } = await service.listCountries()
+      this.setState({ genders, countries }, () => console.log(this.state))
+    } catch (err) {
+      console.warn(err)
+    }
   }
 
   onChange = event => {
@@ -39,11 +55,42 @@ export default class Signup extends React.Component {
     this.setState({ subscriber: sub })
   }
 
+  submit = async() => {
+    try {
+      const { 
+        name, email, pass,
+        confirmPass, genderId, phone,
+        countryId, cpf, subscriber
+      } = this.state
+      
+      if (pass !== confirmPass) {
+        Swal.fire('Atenção', 'Senha e confirmação de senha não são iguais.', 'info')
+        return
+      }
+
+      const data = {
+        access: { pass, email, phone },
+        cpf,
+        name, 
+        genderId,
+        countryId,
+        subscriber
+      }
+      await service.signup(data)
+      
+      Swal.fire('Sucesso', 'Cadastro realizado com sucesso', 'success')
+      this.props.history.push('/')
+    } catch (err) {
+      console.warn(err)
+      Swal.fire('Erro', 'Erro ao realizar o cadastro', 'error')
+    }
+  }
+
   render() {
     const { 
-      name, email, pass, 
+      name, email, pass, genders,
       confirmPass, genderId, phone,
-      countryId, cpf, subscriber
+      countryId, cpf, subscriber, countries
     } = this.state
     return (
       <Background scroll>
@@ -95,16 +142,14 @@ export default class Signup extends React.Component {
               name='genderId'
               label='Gênero'
               as='select'
-              data={[
-                { key: 'm', value: 1, label: 'masculino' }
-              ]}
+              data={mapToOption(genders)}
               onChange={this.onChange}
             />             
             
             <InputField 
               placeholder='Insira seu telefone com DDD'
               name='phone'
-              inputType='tel'
+              inputType='number'
               value={phone}
               label='Telefone'
               onChange={this.onChange}
@@ -115,6 +160,7 @@ export default class Signup extends React.Component {
               name='countryId'
               label='País'
               as='select'
+              data={mapToOption(countries)}
               onChange={this.onChange}
             />
             
@@ -140,8 +186,8 @@ export default class Signup extends React.Component {
               Não
             </Button>
             
-            <Button block>COMEÇAR</Button>
           </form>
+          <Button block onClick={this.submit}>COMEÇAR</Button>
         </Container>
       </Background>
       )
